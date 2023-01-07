@@ -1,0 +1,68 @@
+﻿@page "/zakladki"
+
+<PageTitle>Zakładki</PageTitle>
+
+<nav>
+    <button @onclick="Wstecz">←</button>
+    @for (
+        LinkedListNode<(string Tytuł, string Treść)> zakładka = zakładki.First;
+        zakładka != null;
+        zakładka = zakładka.Next
+        )
+    {
+        <h1
+            class="@CzyAktywna(zakładka.Value.Tytuł)"
+            @onclick="Aktywuj(zakładka)"
+            >
+            @zakładka.Value.Tytuł
+        </h1>
+    }
+    <button @onclick="Dalej">→</button>
+</nav>
+
+<main>
+    @foreach ((string Tytuł, string Treść) zakładka in zakładki)
+    {
+        <section class="@CzyAktywna(zakładka.Tytuł)">
+            <h2>@zakładka.Tytuł</h2>
+            <p>@zakładka.Treść</p>
+        </section>
+    }
+</main>
+
+@code {
+    public Zakładki()
+    {
+        aktywna = zakładki.First;
+    }
+    private LinkedListNode<(string Tytuł, string Treść)> aktywna;
+    private LinkedList<(string Tytuł, string Treść)> zakładki = new(new[]{
+        ("Zakładka 1", "Treść zakładki 1"),
+        ("Zakładka 2", "Treść zakładki 2"),
+        ("Zakładka 3", "Treść zakładki 3"),
+        ("Zakładka 4", "Treść zakładki 4"),
+    });
+    private string? CzyAktywna(string Tytuł)
+    {
+        return aktywna.Value.Tytuł == Tytuł ? "aktywna" : null;
+    }
+    private void Wstecz()
+    {
+        if (aktywna.Previous != null)
+            aktywna = aktywna.Previous;
+    }
+    private void Dalej()
+    {
+        if (aktywna.Next != null)
+            aktywna = aktywna.Next;
+    }
+    private EventCallback Aktywuj(
+        LinkedListNode<(string Tytuł, string Treść)> co
+    )
+    {
+        return new(
+            receiver: default,
+            @delegate: () => aktywna = co
+        );
+    }
+}

@@ -1,0 +1,31 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @Count</p>
+<p role="status">Total among all counter components: @total</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">@IncrementAmountStr</button>
+
+@code {
+    static private int total = 0;
+
+    [Parameter]
+    public int Count { get; set; } = 0;
+
+    [Parameter]
+    public int IncrementAmount { get; set; } = 1;
+    public string IncrementAmountStr =>
+        IncrementAmount >= 0 ?
+        "+" + IncrementAmount :
+        IncrementAmount.ToString()
+        ;
+
+    private void IncrementCount()
+    {
+        Count += IncrementAmount;
+        total += IncrementAmount;
+    }
+}

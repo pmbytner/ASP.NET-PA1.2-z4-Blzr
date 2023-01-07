@@ -1,0 +1,22 @@
+﻿﻿nav {
+    display: flex;
+    gap: 1em;
+}
+
+nav h1 {
+    padding: 12px;
+    border-radius: 6px 6px 0 0;
+    font-size: 1em;
+}
+
+    nav h1.aktywna {
+        background-color: hsl(30,100%,80%);
+    }
+
+    nav h1:not(.aktywna) {
+        background-color: hsl(30,50%,95%);
+    }
+
+main section:not(.aktywna) {
+    display: none;
+}

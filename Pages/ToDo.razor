@@ -1,0 +1,37 @@
+﻿@page "/todo"
+@using ASP.NET_PA1._2_z4_Blzr.Data
+
+<PageTitle>To do</PageTitle>
+
+<h3>To do (@todos.Count(todo => !todo.IsDone)/@todos.Count)</h3>
+
+<ul>
+    @foreach(ToDoItem item in todos){
+        <li>
+            <input
+                type="checkbox"
+                @bind="item.IsDone"
+                />
+            <input @bind="item.Title"/>
+        </li>
+    }
+</ul>
+
+<input
+    placeholder="What to do?"
+    @bind="newItemTitle"
+    />
+<button @onclick="AddItem">Add</button>
+
+@code {
+    private string? newItemTitle;
+
+    private List<ToDoItem> todos = new();
+
+    public void AddItem() {
+        if(string.IsNullOrWhiteSpace(newItemTitle) == false) {
+            todos.Add(new ToDoItem { Title = newItemTitle });
+            newItemTitle = string.Empty;
+        }
+    }
+}
